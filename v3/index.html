@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Executive Performance Infrastructure | Optivara Group</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { overflow-x: hidden; }
+
+    :root {
+      /* ── DARK CONTEXT (hero, nav, stats overlay, CTA) ── */
+      --bg:            #5E2533;
+      --bg-deep:       #4a1d2a;
+      --bg-deeper:     #3a1520;
+
+      /* ── LIGHT CONTEXT (scroll content on cream) ── */
+      --cream:         #F8F7F0;
+      --cream-card:    #F0ECE6;
+
+      /* ── TYPOGRAPHY ON DARK ── */
+      --text:          #F8F7F0;
+      --text-muted:    rgba(248,247,240,0.68);
+      --text-dim:      rgba(248,247,240,0.32);
+
+      /* ── TYPOGRAPHY ON LIGHT ── */
+      --burgundy:      #5E2533;
+      --burg-muted:    rgba(94,37,51,0.62);
+      --burg-dim:      rgba(94,37,51,0.35);
+
+      /* ── SHARED ACCENTS ── */
+      --gold:          #A88875;
+      --gold-light:    #C4A491;
+      --blush:         #D7C0C1;
+
+      /* ── BORDERS ── */
+      --border:        rgba(248,247,240,0.12);
+      --border-mid:    rgba(248,247,240,0.22);
+      --border-lt:     rgba(94,37,51,0.09);
+      --border-lt-mid: rgba(94,37,51,0.16);
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--burgundy);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 700;
+    }
+
+    /* ── LOADER ── */
+    #loader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--cream);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 32px;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; }
+    .loader-logo {
+      width: 200px; height: auto;
+      mix-blend-mode: multiply;
+    }
+    .loader-bar-wrap {
+      width: 200px; height: 1px;
+      background: rgba(168,136,117,0.20);
+      position: relative; overflow: hidden;
+    }
+    #loader-bar {
+      position: absolute; left: 0; top: 0;
+      height: 100%; width: 0%;
+      background: var(--gold);
+      transition: width 0.3s ease;
+    }
+    #loader-percent {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: 0.12em;
+      color: var(--burg-dim);
+    }
+
+    /* ── FIXED NAV ── */
+    .site-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px;
+      background: rgba(58,21,32,0.94);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    .nav-logo {
+      display: flex; align-items: center;
+      text-decoration: none;
+    }
+    .nav-logo-img { height: 26px; width: auto; display: block; }
+    .linkedin-btn { display: inline-flex; align-items: center; gap: 5px; }
+    .nav-links {
+      display: flex; gap: 2px;
+      list-style: none;
+    }
+    .nav-links a {
+      padding: 7px 13px;
+      font-size: 12px; font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      padding: 9px 22px;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      background: var(--cream);
+      color: var(--burgundy);
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--blush); }
+
+    /* ── HERO (standalone 100vh) ── */
+    #hero {
+      position: relative;
+      height: 100vh;
+      display: flex; align-items: flex-end;
+      padding: 0 5vw 10vh;
+      overflow: hidden;
+      background: var(--bg);
+    }
+    .hero-bg-mark {
+      position: absolute; right: 5vw; top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.13;
+      pointer-events: none;
+    }
+    .hero-gold-bar {
+      position: absolute; left: 5vw; bottom: 18vh;
+      width: 40px; height: 2px;
+      background: var(--gold);
+      opacity: 0;
+    }
+    .hero-label {
+      position: absolute; top: 40%; left: 5vw;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0;
+    }
+    .hero-h1 {
+      font-size: clamp(4.5rem, 9.5vw, 12rem);
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.04em;
+      line-height: 0.92;
+      max-width: 75vw;
+      position: relative; z-index: 1;
+    }
+    .hero-h1 .word {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: bottom;
+      margin-right: 0.22em;
+    }
+    .hero-h1 .word-inner {
+      display: block;
+      transform: translateY(110%);
+    }
+    .hero-tagline {
+      position: absolute; bottom: 10vh; right: 5vw;
+      text-align: right;
+      max-width: 340px;
+    }
+    .hero-tagline p {
+      font-size: 14px;
+      color: #ffffff;
+      line-height: 1.75;
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    .hero-tagline .hero-sub {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 12px;
+      opacity: 0;
+    }
+    .scroll-hint {
+      position: absolute; bottom: 3vh; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column;
+      align-items: center; gap: 8px;
+      opacity: 0;
+    }
+    .scroll-hint span {
+      font-size: 9px; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .scroll-arrow {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: pulse-down 2s ease-in-out infinite;
+    }
+    @keyframes pulse-down {
+      0%, 100% { transform: scaleY(1); opacity: 0.5; }
+      50% { transform: scaleY(1.3); opacity: 1; }
+    }
+
+    /* ── HERO PHOTO ── */
+    .hero-photo {
+      position: absolute;
+      right: 0; top: 0; bottom: 0;
+      width: 50%; z-index: 0;
+      overflow: hidden;
+    }
+    .hero-photo::after {
+      content: '';
+      position: absolute; inset: 0; z-index: 1;
+      background:
+        linear-gradient(to right, var(--bg) 0%, rgba(94,37,51,0.55) 40%, transparent 75%),
+        linear-gradient(to top, rgba(74,29,42,0.6) 0%, transparent 55%);
+    }
+    .hero-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+      display: block;
+      filter: saturate(0.7) brightness(0.65);
+    }
+
+    /* ── SECTION PHOTOS ── */
+    .section-photo {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      height: 70vh; width: 42vw;
+      object-fit: cover; object-position: center;
+      display: block; pointer-events: none;
+      opacity: 0;
+    }
+    .section-photo-right { right: 0; }
+    .section-photo-left  { left: 0; }
+
+    /* ── CIRCLE WIPE REVEAL ── */
+    #wipe-reveal {
+      position: fixed; inset: 0; z-index: 1;
+      clip-path: circle(0% at 50% 50%);
+      pointer-events: none;
+      background: var(--cream);
+    }
+
+    /* ── SCROLL CONTAINER ── */
+    #scroll-container {
+      position: relative;
+      height: 560vh;
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      position: absolute;
+      left: 0; right: 0;
+      overflow: hidden;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 5;
+    }
+    .marquee-text {
+      font-family: Georgia, serif;
+      font-size: 10vw;
+      font-weight: 700;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(168,136,117,0.20);
+      white-space: nowrap;
+      letter-spacing: -0.04em;
+      will-change: transform;
+    }
+
+    /* ── SCROLL SECTIONS ── */
+    .scroll-section {
+      position: absolute;
+      left: 0; right: 0;
+      display: flex; align-items: center;
+      min-height: 100vh;
+      transform: translateY(-50%);
+      pointer-events: none;
+      z-index: 10;
+    }
+    .scroll-section.is-visible { pointer-events: auto; }
+
+    .align-left  { padding-left: 5vw;  padding-right: 50vw; }
+    .align-right { padding-left: 50vw; padding-right: 5vw;  }
+    .section-inner { max-width: 42vw; }
+
+    .section-label {
+      display: block;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      opacity: 0;
+    }
+    .section-heading {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(2rem, 3.8vw, 4.5rem);
+      font-weight: 700;
+      color: var(--burgundy);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin-bottom: 24px;
+      opacity: 0;
+    }
+    .section-body {
+      font-size: 14px;
+      color: var(--burg-muted);
+      line-height: 1.85;
+      max-width: 380px;
+      margin-bottom: 20px;
+      opacity: 0;
+    }
+    .section-note {
+      font-size: 12px; font-weight: 600;
+      color: var(--burgundy);
+      opacity: 0;
+    }
+    .section-rule {
+      height: 1px; width: 40px;
+      background: var(--gold);
+      margin-bottom: 28px;
+      opacity: 0;
+    }
+    .text-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      opacity: 0;
+    }
+
+    /* ── STATS SECTION ── */
+    .section-stats {
+      padding: 0 5vw;
+      justify-content: center;
+      z-index: 15;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      width: 100%;
+      background: rgba(94,37,51,0.30);
+    }
+    .stat {
+      background: rgba(58,21,32,0.95);
+      padding: 56px 48px;
+      display: flex; flex-direction: column; gap: 10px;
+      opacity: 0;
+    }
+    .stat-number {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(3.5rem, 6vw, 7rem);
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: -0.05em;
+      line-height: 1;
+    }
+    .stat-suffix {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: -0.04em;
+    }
+    .stat-label {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ── DARK OVERLAY (stats) ── */
+    #dark-overlay {
+      position: fixed; inset: 0; z-index: 8;
+      background: rgba(10,4,6,0.88);
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    /* ── PILLAR ITEMS ── */
+    .pillars-inline { display: flex; flex-direction: column; gap: 24px; }
+    .pillar-item {
+      display: flex; gap: 20px; align-items: flex-start;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-lt-mid);
+    }
+    .pillar-num {
+      font-family: Georgia, serif;
+      font-size: 11px; font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      flex-shrink: 0; padding-top: 3px;
+    }
+    .pillar-body h3 {
+      font-family: Georgia, serif;
+      font-size: 1.05rem; font-weight: 700;
+      color: var(--burgundy);
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+    }
+    .pillar-body p {
+      font-size: 13px;
+      color: var(--burg-muted);
+      line-height: 1.75;
+    }
+
+    /* ── STATEMENT SECTION ── */
+    .statement-section {
+      padding: 0 5vw;
+      align-items: center;
+      z-index: 10;
+    }
+    .statement-lines { display: flex; flex-direction: column; }
+    .statement-line {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(3.5rem, 7.5vw, 9rem);
+      font-weight: 700;
+      color: var(--burgundy);
+      letter-spacing: -0.055em;
+      line-height: 0.9;
+      overflow: hidden;
+      /* opacity controlled entirely by GSAP */
+    }
+    .statement-line span { display: block; }
+    .statement-line.dim { color: var(--blush); }
+    .statement-caption {
+      font-size: 13px;
+      color: var(--burg-muted);
+      line-height: 1.8;
+      max-width: 360px;
+      margin-top: 36px;
+      opacity: 0;
+    }
+
+    /* ── OUTCOMES ── */
+    .outcomes-grid-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--border-lt);
+      margin-top: 32px;
+    }
+    .outcome-card {
+      background: var(--cream);
+      padding: 32px 28px;
+      display: flex; flex-direction: column; gap: 8px;
+      opacity: 0;
+    }
+    .outcome-card h3 {
+      font-family: Georgia, serif;
+      font-size: 14px; font-weight: 700;
+      color: var(--burgundy);
+      letter-spacing: -0.01em;
+    }
+    .outcome-card p {
+      font-size: 12px;
+      color: var(--burg-muted);
+      line-height: 1.75;
+    }
+    .outcome-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    /* ── CTA / FORM SECTION ── */
+    .section-cta { padding: 0 5vw; align-items: center; z-index: 20; }
+    .cta-inner {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: start;
+      padding: 80px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+    }
+    .cta-copy { display: flex; flex-direction: column; gap: 20px; }
+    .cta-copy h2 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.8rem, 3vw, 3rem);
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      opacity: 0;
+    }
+    .cta-copy p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      opacity: 0;
+    }
+    .cta-rule { height: 1px; width: 40px; background: var(--border-mid); opacity: 0; }
+    .form-stack { display: flex; flex-direction: column; gap: 10px; opacity: 0; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .field {
+      width: 100%; padding: 13px 15px;
+      background: rgba(248,247,240,0.06);
+      border: 1px solid var(--border-mid);
+      color: var(--text);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .field:focus { border-color: var(--gold); background: rgba(168,136,117,0.08); }
+    .field::placeholder { color: rgba(248,247,240,0.28); }
+    select.field { cursor: pointer; }
+    select.field option { background: #3a1520; color: var(--text); }
+    .btn-submit {
+      width: 100%; padding: 15px;
+      background: var(--cream);
+      color: var(--burgundy);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      border: none; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-submit:hover { background: var(--blush); }
+    .form-note {
+      font-size: 10px;
+      color: var(--text-dim);
+      text-align: center;
+      letter-spacing: 0.04em;
+      opacity: 0;
+    }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 40px 5vw;
+      border-top: 1px solid var(--border-lt-mid);
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 10;
+    }
+    .footer-logo img {
+      height: 28px; width: auto;
+      mix-blend-mode: multiply;
+    }
+    .footer-copy {
+      font-size: 10px; font-weight: 500;
+      color: var(--burg-dim);
+      letter-spacing: 0.06em;
+    }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a {
+      font-size: 11px; color: var(--burg-dim);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--burgundy); }
+
+    /* ── CALENDLY SECTION (normal flow, after scroll container) ── */
+    .home-calendly {
+      background: var(--cream);
+      padding: 80px 5vw 100px;
+      border-top: 1px solid var(--border-lt-mid);
+    }
+    .home-calendly-inner { max-width: 1200px; margin: 0 auto; }
+    .home-calendly-header { margin-bottom: 48px; }
+    .home-calendly-label { font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 16px; }
+    .home-calendly-header h2 { font-family: Georgia, 'Times New Roman', serif; font-weight: 700; font-size: clamp(1.6rem, 2.8vw, 2.4rem); color: var(--burgundy); letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 12px; }
+    .home-calendly-rule { width: 40px; height: 1px; background: var(--gold); opacity: 0.5; margin-bottom: 16px; }
+    .home-calendly-header p { font-size: 14px; color: var(--burg-muted); line-height: 1.8; max-width: 480px; }
+    .home-calendly-widget { border: 1px solid var(--border-lt-mid); overflow: hidden; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .site-nav { padding: 0 24px; }
+      .hero-h1 { font-size: clamp(3rem, 12vw, 6rem); max-width: 90vw; }
+      .hero-tagline { display: none; }
+      .align-left, .align-right { padding: 0 6vw; }
+      .section-inner { max-width: 100%; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .statement-line { font-size: clamp(2.5rem, 10vw, 5rem); }
+      .cta-inner { grid-template-columns: 1fr; gap: 40px; padding: 40px 24px; }
+      .form-row { grid-template-columns: 1fr; }
+      .site-footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── LOADER ── -->
+<div id="loader">
+  <img src="/brand_assets/DE34FB59-9F29-4A65-BA7E-BCD62D3A974A.jpeg" class="loader-logo" alt="Optivara Group">
+  <div class="loader-bar-wrap"><div id="loader-bar"></div></div>
+  <span id="loader-percent">0%</span>
+</div>
+
+<!-- ── FIXED NAV ── -->
+<nav class="site-nav" role="banner" id="site-nav">
+  <a href="index.html" class="nav-logo" aria-label="Optivara Group">
+    <img src="/brand_assets/optivara_wordmark_6_inline_peak.jpeg" alt="Optivara Group" class="nav-logo-img">
+  </a>
+  <ul class="nav-links" aria-label="Main navigation">
+    <li><a href="approach.html">Approach</a></li>
+    <li><a href="values.html">Values</a></li>
+    <li><a href="executive-brief.html">Executive Brief</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <a href="executive-brief.html" class="nav-cta">Request Brief</a>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero" aria-labelledby="hero-h1">
+  <div class="hero-photo" aria-hidden="true">
+    <img src="/brand_assets/executiveimages/exechome.jpg" alt="">
+  </div>
+
+  <span class="hero-label" id="hero-label" aria-hidden="true">Optivara Group</span>
+  <div class="hero-gold-bar" id="hero-teal-bar" aria-hidden="true"></div>
+
+  <h1 class="hero-h1" id="hero-h1">
+    <span class="word"><span class="word-inner">Executive</span></span>
+    <span class="word"><span class="word-inner">Performance</span></span>
+    <br>
+    <span class="word"><span class="word-inner">Infrastructure.</span></span>
+  </h1>
+
+  <div class="hero-tagline" aria-hidden="true">
+    <p>Measurable health infrastructure that protects and scales executive performance inside high-performing organizations.</p>
+    <p class="hero-sub">Integrated · Governed · Measurable</p>
+  </div>
+
+  <div class="scroll-hint" aria-hidden="true">
+    <span>Scroll</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ── CIRCLE WIPE REVEAL ── -->
+<div id="wipe-reveal" aria-hidden="true"></div>
+
+<!-- ── DARK OVERLAY (for stats section) ── -->
+<div id="dark-overlay" aria-hidden="true"></div>
+
+<!-- ── MARQUEE ── -->
+<div class="marquee-wrap" id="marquee-1" style="top: 0;" aria-hidden="true">
+  <div class="marquee-text" id="marquee-text-1">
+    Executive Performance Infrastructure &nbsp;·&nbsp; Integrated &nbsp;·&nbsp; Governed &nbsp;·&nbsp; Measurable &nbsp;·&nbsp; Health Infrastructure for High-Performing Leaders &nbsp;·&nbsp; Executive Performance Infrastructure &nbsp;·&nbsp; Integrated &nbsp;·&nbsp; Governed &nbsp;·&nbsp; Measurable &nbsp;·&nbsp;
+  </div>
+</div>
+
+<!-- ── SCROLL CONTAINER ── -->
+<div id="scroll-container">
+
+  <!-- 01 · THE UNMANAGED RISK · align-left · fade-up -->
+  <section class="scroll-section align-left"
+           style="top: 5%"
+           data-enter="100" data-leave="26" data-animation="fade-up" data-hero-trigger="true"
+           aria-labelledby="risk-h2">
+    <div class="section-inner">
+      <span class="section-label">01 / The unmanaged risk</span>
+      <div class="section-rule"></div>
+      <h2 class="section-heading" id="risk-h2">
+        The most expensive risk<br>is rarely on the balance sheet.
+      </h2>
+      <p class="section-body">
+        High-performing companies insure capital, operations, and intellectual property — but often leave the single most critical performance driver unmanaged: leadership capacity.
+      </p>
+      <p class="section-body" style="margin-top:-8px">
+        Executive health is not a perk. It is not reactive medical support. It is strategic infrastructure for sustained output, decision quality, and resilience under pressure.
+      </p>
+      <p class="section-note">Quiet degradation becomes expensive.</p>
+    </div>
+  </section>
+
+  <!-- 02 · STATS · full-width · stagger-up + dark overlay -->
+  <section class="scroll-section section-stats"
+           style="top: 25%"
+           data-enter="17" data-leave="35" data-animation="stagger-up"
+           aria-label="Key metrics">
+    <div class="stats-grid" role="list">
+      <div class="stat" role="listitem">
+        <div>
+          <span class="stat-number" data-value="233" data-decimals="0">0</span><span class="stat-suffix">%</span>
+        </div>
+        <span class="stat-label">Replacement cost of a single senior leader</span>
+      </div>
+      <div class="stat" role="listitem">
+        <div>
+          <span class="stat-number" data-value="6" data-decimals="0">0</span><span class="stat-suffix">x</span>
+        </div>
+        <span class="stat-label">ROI for every $1 invested in executive health</span>
+      </div>
+      <div class="stat" role="listitem">
+        <div>
+          <span class="stat-number" data-value="41" data-decimals="0">0</span><span class="stat-suffix">%</span>
+        </div>
+        <span class="stat-label">Risk mitigation including absenteeism</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 · THREE PILLARS · align-right · slide-right -->
+  <section class="scroll-section align-right"
+           style="top: 42%"
+           data-enter="33" data-leave="50" data-animation="slide-right"
+           aria-labelledby="pillars-h2">
+    <img src="/brand_assets/executiveimages/execrunning.png" class="section-photo section-photo-left" alt="" aria-hidden="true">
+    <div class="section-inner">
+      <span class="section-label">02 / What we build</span>
+      <h2 class="section-heading" id="pillars-h2">Three pillars.<br>One governed system.</h2>
+      <div class="pillars-inline">
+        <div class="pillar-item">
+          <span class="pillar-num">01</span>
+          <div class="pillar-body">
+            <h3>Integration</h3>
+            <p>Sleep, physiology, stress, training, and cognition engineered as one interconnected system. Every variable informs the others.</p>
+          </div>
+        </div>
+        <div class="pillar-item">
+          <span class="pillar-num">02</span>
+          <div class="pillar-body">
+            <h3>Governance</h3>
+            <p>Structured oversight and accountability built into every engagement. Regular reviews, systematic adjustments, clear lines of responsibility.</p>
+          </div>
+        </div>
+        <div class="pillar-item">
+          <span class="pillar-num">03</span>
+          <div class="pillar-body">
+            <h3>Measurement</h3>
+            <p>Every intervention tracked and quantified. Performance data reported in business terms — because what cannot be measured cannot be managed.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 · MANIFESTO · full-screen · clip-reveal -->
+  <section class="scroll-section statement-section"
+           style="top: 57%"
+           data-enter="48" data-leave="64" data-animation="clip-reveal"
+           aria-labelledby="statement-h2">
+    <div style="width:100%">
+      <div class="statement-lines" aria-labelledby="statement-h2">
+        <div class="statement-line" id="statement-h2"><span>We build infrastructure.</span></div>
+        <div class="statement-line dim"><span>Not perks.</span></div>
+        <div class="statement-line dim"><span>Not apps.</span></div>
+        <div class="statement-line"><span>Not slogans.</span></div>
+      </div>
+      <p class="statement-caption">
+        Executive health is not corporate wellness. It is strategic infrastructure for sustained output, decision quality, and resilience under pressure — so leadership performance does not degrade.
+      </p>
+    </div>
+  </section>
+
+  <!-- 05 · OUTCOMES · align-left · scale-up -->
+  <section class="scroll-section align-left"
+           style="top: 70%"
+           data-enter="62" data-leave="78" data-animation="scale-up"
+           aria-labelledby="outcomes-h2">
+    <div class="section-inner">
+      <span class="section-label">03 / Business outcomes</span>
+      <h2 class="section-heading" id="outcomes-h2">
+        What protected performance looks like.
+      </h2>
+      <div class="outcomes-grid-wrap" role="list">
+        <div class="outcome-card" role="listitem">
+          <div class="outcome-dot" aria-hidden="true"></div>
+          <h3>Decision quality</h3>
+          <p>Sustained cognitive sharpness when the stakes are highest.</p>
+        </div>
+        <div class="outcome-card" role="listitem">
+          <div class="outcome-dot" aria-hidden="true"></div>
+          <h3>Resilience under pressure</h3>
+          <p>Physiological capacity that holds under prolonged demand.</p>
+        </div>
+        <div class="outcome-card" role="listitem">
+          <div class="outcome-dot" aria-hidden="true"></div>
+          <h3>Sustained output</h3>
+          <p>Performance that does not degrade over the leadership arc.</p>
+        </div>
+        <div class="outcome-card" role="listitem">
+          <div class="outcome-dot" aria-hidden="true"></div>
+          <h3>Continuity protection</h3>
+          <p>Reduced risk of performance gaps at the leadership level.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 · CTA FORM · full-width · rotate-in · persist -->
+  <section class="scroll-section section-cta"
+           style="top: 88%"
+           data-enter="74" data-leave="100" data-animation="rotate-in" data-persist="true"
+           aria-labelledby="cta-h2" id="brief">
+    <div class="cta-inner">
+      <div class="cta-copy">
+        <span class="section-label" style="opacity:0">Get started</span>
+        <h2 id="cta-h2">Ready to build executive performance infrastructure?</h2>
+        <div class="cta-rule"></div>
+        <p>Request your executive brief. We will review your situation and provide a tailored overview of how Optivara builds structured performance infrastructure for your organization.</p>
+        <p style="font-size:11px;letter-spacing:0.04em;opacity:0" class="section-body">
+          Typical response within one business day. All inquiries handled with complete discretion.
+        </p>
+      </div>
+      <div>
+        <form class="form-stack" onsubmit="return false" novalidate aria-label="Request Executive Brief">
+          <div class="form-row">
+            <input type="text"  class="field" placeholder="Full name"    autocomplete="name">
+            <input type="text"  class="field" placeholder="Role / Title"  autocomplete="organization-title">
+          </div>
+          <input type="text"   class="field" placeholder="Company"       autocomplete="organization">
+          <input type="email"  class="field" placeholder="Work email"    autocomplete="email">
+          <select class="field" aria-label="What are you trying to protect?">
+            <option value="" disabled selected>What are you trying to protect?</option>
+            <option>My own executive performance</option>
+            <option>My leadership team's capacity</option>
+            <option>Leadership continuity across the organization</option>
+            <option>All of the above</option>
+          </select>
+          <button type="submit" class="btn-submit">Request executive brief</button>
+          <p class="form-note">All inquiries are handled with complete discretion.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-logo">
+      <img src="/brand_assets/optivara_wordmark_6_inline_peak.jpeg" alt="Optivara Group">
+    </div>
+    <span class="footer-copy">&copy; 2026 Optivara Group. All rights reserved.</span>
+    <nav class="footer-links" aria-label="Footer links">
+      <a href="privacy.html">Privacy</a>
+      <a href="approach.html">Approach</a>
+      <a href="executive-brief.html">Contact</a>
+      <a href="https://www.linkedin.com/company/optivara-group/?viewAsMember=true" class="linkedin-btn" aria-label="LinkedIn" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+        LinkedIn
+      </a>
+    </nav>
+  </footer>
+
+</div><!-- end scroll-container -->
+
+<!-- ── CALENDLY BOOKING ── -->
+<section class="home-calendly" aria-labelledby="home-calendly-h2">
+  <div class="home-calendly-inner">
+    <div class="home-calendly-header">
+      <span class="home-calendly-label">Or book directly</span>
+      <h2 id="home-calendly-h2">Schedule your 20-minute<br>introductory call.</h2>
+      <div class="home-calendly-rule"></div>
+      <p>Prefer to pick a time now? Select a slot below and we will come prepared with a tailored overview of how Optivara builds executive performance infrastructure.</p>
+    </div>
+    <div class="home-calendly-widget">
+      <div class="calendly-inline-widget"
+           data-url="https://calendly.com/stan-optivaragroup/executivebrief?hide_gdpr_banner=1"
+           style="min-width:320px;height:700px;">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SCRIPTS ── -->
+<script src="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  // ── 1. LOADER ───────────────────────────────────────────────────────────────
+  const loader    = document.getElementById('loader');
+  const loaderBar = document.getElementById('loader-bar');
+  const loaderPct = document.getElementById('loader-percent');
+
+  let progress = 0;
+  const loadInterval = setInterval(() => {
+    progress = Math.min(progress + Math.random() * 18, 95);
+    loaderBar.style.width  = progress + '%';
+    loaderPct.textContent  = Math.floor(progress) + '%';
+  }, 100);
+
+  function finishLoader() {
+    clearInterval(loadInterval);
+    loaderBar.style.width = '100%';
+    loaderPct.textContent = '100%';
+    setTimeout(() => {
+      loader.classList.add('hidden');
+      initSite();
+    }, 500);
+  }
+
+  if (document.fonts) {
+    document.fonts.ready.then(() => setTimeout(finishLoader, 600));
+  } else {
+    setTimeout(finishLoader, 1200);
+  }
+
+  // ── 2. SITE INIT ────────────────────────────────────────────────────────────
+  function initSite() {
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 2a. Lenis smooth scroll
+    const lenis = new Lenis({
+      duration: 1.0,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true
+    });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+
+    // 2b. Nav reveal
+    gsap.to('#site-nav', {
+      opacity: 1, y: 0,
+      duration: 1, ease: 'power3.out',
+      delay: 0.3
+    });
+
+    // 2c. Hero entrance
+    const words = document.querySelectorAll('.hero-h1 .word-inner');
+    const tl = gsap.timeline({ delay: 0.5 });
+
+    tl.to(words, {
+      y: '0%',
+      duration: 1.1,
+      ease: 'power4.out',
+      stagger: 0.12
+    })
+    .to('#hero-teal-bar', { opacity: 1, scaleX: 1, duration: 0.5, ease: 'power2.out' }, '-=0.2')
+    .to('#hero-label',    { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '-=0.4')
+    .to('.hero-tagline p', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.15 }, '-=0.4')
+    .to('.hero-tagline .hero-sub', { opacity: 1, duration: 0.6 }, '-=0.3')
+    .to('.scroll-hint', { opacity: 1, duration: 0.8 }, '-=0.2');
+
+    // 2d. Hero exit + circle wipe → section 01 appears as wipe completes
+    const scrollContainer = document.getElementById('scroll-container');
+    const heroSection     = document.getElementById('hero');
+    const wipeReveal      = document.getElementById('wipe-reveal');
+
+    ScrollTrigger.create({
+      trigger: scrollContainer,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: true,
+      onUpdate: (self) => {
+        const p = self.progress;
+
+        heroSection.style.opacity = Math.max(0, 1 - p * 20);
+
+        const wipeP  = Math.min(1, Math.max(0, (p - 0.005) / 0.08));
+        const radius = wipeP * 150;
+        wipeReveal.style.clipPath = `circle(${radius}% at 50% 50%)`;
+
+        const mWrap = document.getElementById('marquee-1');
+        if (p > 0.09 && p < 0.20) {
+          mWrap.style.opacity = Math.min(1, (p - 0.09) / 0.04);
+        } else if (p >= 0.20 && p < 0.30) {
+          mWrap.style.opacity = Math.max(0, 1 - (p - 0.20) / 0.05);
+        } else {
+          mWrap.style.opacity = 0;
+        }
+      }
+    });
+
+    // Marquee position + horizontal scroll
+    const mWrap = document.getElementById('marquee-1');
+    mWrap.style.position  = 'fixed';
+    mWrap.style.top       = '50%';
+    mWrap.style.transform = 'translateY(-50%)';
+
+    gsap.to('#marquee-text-1', {
+      xPercent: -40,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: scrollContainer,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: true
+      }
+    });
+
+    // 2e. Dark overlay for stats
+    initDarkOverlay(0.15, 0.37);
+
+    // 2f. Section animations
+    document.querySelectorAll('.scroll-section').forEach(setupSectionAnimation);
+
+    // 2g. Hero-based trigger for section 01 — fires as hero scrolls away
+    const sec01 = document.querySelector('[data-hero-trigger="true"]');
+    if (sec01) {
+      const sec01Els = sec01.querySelectorAll('.section-label, .section-rule, .section-heading, .section-body, .section-note');
+      gsap.set(sec01Els, { y: 40, opacity: 0 });
+      let sec01Played = false;
+      ScrollTrigger.create({
+        trigger: '#hero',
+        start: '80% top', // fires when 80% of hero has scrolled past viewport top
+        onEnter: () => {
+          if (!sec01Played) {
+            sec01Played = true;
+            sec01.classList.add('is-visible');
+            gsap.to(sec01Els, { y: 0, opacity: 1, stagger: 0.1, duration: 0.9, ease: 'power3.out' });
+          }
+        },
+        onLeaveBack: () => {
+          sec01Played = false;
+          sec01.classList.remove('is-visible');
+          gsap.to(sec01Els, { y: 40, opacity: 0, duration: 0.5, ease: 'power2.in' });
+        }
+      });
+    }
+
+    // 2h. Counter animations
+    document.querySelectorAll('.stat-number').forEach((el) => {
+      const decimals = parseInt(el.dataset.decimals || '0');
+      gsap.from(el, {
+        textContent: 0,
+        duration: 2.2,
+        ease: 'power1.out',
+        snap: { textContent: decimals === 0 ? 1 : 0.01 },
+        scrollTrigger: {
+          trigger: el.closest('.scroll-section'),
+          start: 'top 70%',
+          toggleActions: 'play none none reverse'
+        }
+      });
+    });
+  }
+
+  // ── 3. DARK OVERLAY ─────────────────────────────────────────────────────────
+  function initDarkOverlay(enter, leave) {
+    const overlay   = document.getElementById('dark-overlay');
+    const fadeRange = 0.035;
+    const sc        = document.getElementById('scroll-container');
+
+    ScrollTrigger.create({
+      trigger: sc,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: true,
+      onUpdate: (self) => {
+        const p = self.progress;
+        let opacity = 0;
+        if (p >= enter - fadeRange && p <= enter) {
+          opacity = (p - (enter - fadeRange)) / fadeRange;
+        } else if (p > enter && p < leave) {
+          opacity = 0.88;
+        } else if (p >= leave && p <= leave + fadeRange) {
+          opacity = 0.88 * (1 - (p - leave) / fadeRange);
+        }
+        overlay.style.opacity = opacity;
+      }
+    });
+  }
+
+  // ── 4. SECTION ANIMATION SYSTEM ─────────────────────────────────────────────
+  function setupSectionAnimation(section) {
+    const type    = section.dataset.animation;
+    const persist = section.dataset.persist === 'true';
+    const enter   = parseFloat(section.dataset.enter) / 100;
+    const sc      = document.getElementById('scroll-container');
+
+    const animEls = section.querySelectorAll(
+      '.section-label, .section-rule, .section-heading, .section-body, .section-note, .text-link, ' +
+      '.stat, .statement-line, .statement-caption, .outcome-card, ' +
+      '.cta-copy h2, .cta-copy p, .cta-rule, .form-stack, .form-note, ' +
+      '.pillars-inline'
+    );
+
+    const tl = gsap.timeline({ paused: true });
+
+    switch (type) {
+      case 'fade-up':
+        tl.to(animEls, { y: 0, opacity: 1, stagger: 0.1, duration: 0.9, ease: 'power3.out', clearProps: 'y' });
+        break;
+
+      case 'slide-left':
+        tl.to(animEls, { x: 0, opacity: 1, stagger: 0.12, duration: 0.9, ease: 'power3.out', clearProps: 'x' });
+        gsap.set(animEls, { x: -70, opacity: 0 });
+        break;
+
+      case 'slide-right':
+        tl.to(animEls, { x: 0, opacity: 1, stagger: 0.12, duration: 0.9, ease: 'power3.out', clearProps: 'x' });
+        gsap.set(animEls, { x: 70, opacity: 0 });
+        break;
+
+      case 'scale-up':
+        tl.to(animEls, { scale: 1, opacity: 1, stagger: 0.1, duration: 1.0, ease: 'power2.out', clearProps: 'scale' });
+        gsap.set(animEls, { scale: 0.88, opacity: 0 });
+        break;
+
+      case 'rotate-in':
+        tl.to(animEls, { y: 0, rotation: 0, opacity: 1, stagger: 0.1, duration: 0.9, ease: 'power3.out', clearProps: 'y,rotation' });
+        gsap.set(animEls, { y: 40, rotation: 3, opacity: 0 });
+        break;
+
+      case 'stagger-up':
+        tl.to(animEls, { y: 0, opacity: 1, stagger: 0.14, duration: 0.8, ease: 'power3.out', clearProps: 'y' });
+        break;
+
+      case 'clip-reveal': {
+        const lines   = section.querySelectorAll('.statement-line');
+        const caption = section.querySelector('.statement-caption');
+        gsap.set(lines,   { opacity: 0 });
+        gsap.set(caption, { opacity: 0, y: 20 });
+        tl.to(lines, { opacity: 1, duration: 0.01, stagger: 0.18 })
+          .to(Array.from(lines).map(l => l.querySelector('span')),
+              { y: '0%', stagger: 0.18, duration: 1.0, ease: 'power4.out' }, '<')
+          .to(caption, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.3');
+        lines.forEach(line => gsap.set(line.querySelector('span'), { y: '110%' }));
+        break;
+      }
+
+      default:
+        tl.to(animEls, { opacity: 1, stagger: 0.1, duration: 0.8 });
+    }
+
+    if (!['clip-reveal','slide-left','slide-right','scale-up','rotate-in'].includes(type)) {
+      gsap.set(animEls, { y: 40, opacity: 0 });
+    }
+
+    // Fade in section photo independently (no position offset)
+    const sectionPhoto = section.querySelector('.section-photo');
+    if (sectionPhoto) {
+      gsap.set(sectionPhoto, { opacity: 0 });
+      tl.to(sectionPhoto, { opacity: 1, duration: 1.4, ease: 'power2.out' }, 0.3);
+    }
+
+    let hasPlayed = false;
+    ScrollTrigger.create({
+      trigger: sc,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: false,
+      onUpdate: (self) => {
+        const p = self.progress;
+        if (p >= enter && !hasPlayed) {
+          hasPlayed = true;
+          section.classList.add('is-visible');
+          tl.play();
+        } else if (p < enter && !persist) {
+          hasPlayed = false;
+          section.classList.remove('is-visible');
+          tl.reverse();
+        }
+      }
+    });
+  }
+
+})();
+</script>
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+</body>
+</html>

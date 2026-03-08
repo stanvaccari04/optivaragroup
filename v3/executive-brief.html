@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Request Executive Brief | Optivara Group</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { overflow-x: hidden; }
+
+    :root {
+      --bg:        #5E2533;
+      --bg-deep:   #4a1d2a;
+      --cream:     #F8F7F0;
+      --cream-alt: #EDE8E3;
+      --burgundy:  #5E2533;
+      --burg-muted: rgba(94,37,51,0.65);
+      --burg-dim:   rgba(94,37,51,0.38);
+      --text:       #F8F7F0;
+      --text-muted: rgba(248,247,240,0.68);
+      --text-dim:   rgba(248,247,240,0.35);
+      --gold:       #A88875;
+      --blush:      #D7C0C1;
+      --border-lt:  rgba(94,37,51,0.10);
+      --border-lt-mid: rgba(94,37,51,0.18);
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--burgundy);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px; line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3 { font-family: Georgia, 'Times New Roman', serif; font-weight: 700; }
+
+    /* ── NAV ── */
+    .site-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px;
+      background: rgba(58,21,32,0.94);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(248,247,240,0.12);
+    }
+    .nav-logo { display: flex; align-items: center; text-decoration: none; }
+    .nav-logo-img { height: 26px; width: auto; display: block; }
+    .linkedin-btn { display: inline-flex; align-items: center; gap: 5px; }
+    .nav-links { display: flex; gap: 2px; list-style: none; }
+    .nav-links a { padding: 7px 13px; font-size: 12px; font-weight: 500; color: var(--text-muted); text-decoration: none; letter-spacing: 0.01em; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+    .nav-cta { padding: 9px 22px; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; background: var(--cream); color: var(--burgundy); text-decoration: none; transition: background 0.2s; }
+    .nav-cta:hover { background: var(--blush); }
+
+    /* ── HERO ── */
+    .page-hero {
+      padding: 140px 5vw 80px;
+      background: var(--bg);
+      min-height: 52vh;
+      display: flex; align-items: flex-end;
+      position: relative; overflow: hidden;
+    }
+    .hero-mark { position: absolute; right: 5vw; top: 50%; transform: translateY(-50%); opacity: 0.10; pointer-events: none; }
+    .hero-inner { max-width: 680px; position: relative; z-index: 1; }
+    .hero-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+    .hero-eyebrow span { font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
+    .hero-eyebrow-rule { width: 24px; height: 1px; background: var(--gold); opacity: 0.5; }
+    .page-hero h1 { font-size: clamp(2.8rem, 5.5vw, 5.5rem); color: var(--text); letter-spacing: -0.04em; line-height: 1.0; margin-bottom: 24px; }
+    .hero-rule { width: 40px; height: 1px; background: var(--gold); opacity: 0.5; margin-bottom: 24px; }
+    .page-hero p { font-size: 15px; color: var(--text-muted); line-height: 1.75; max-width: 520px; }
+
+    /* ── INFO CARDS ── */
+    .info-section { padding: 80px 5vw; }
+    .info-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border-lt-mid); }
+    .info-card { background: var(--cream); padding: 48px 40px; display: flex; flex-direction: column; gap: 20px; }
+    .info-card.dark { background: var(--bg); }
+    .info-card-label { font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
+    .info-card.dark .info-card-label { color: rgba(168,136,117,0.80); }
+    .info-list { display: flex; flex-direction: column; gap: 16px; }
+    .info-item { display: flex; gap: 12px; align-items: flex-start; }
+    .info-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex-shrink: 0; margin-top: 6px; }
+    .info-item p { font-size: 13px; color: var(--burg-muted); line-height: 1.75; }
+    .info-card.dark .info-item p { color: var(--text-muted); }
+    .info-step { display: flex; gap: 16px; align-items: flex-start; padding-top: 16px; border-top: 1px solid rgba(248,247,240,0.12); }
+    .info-step:first-child { border-top: none; padding-top: 0; }
+    .step-num { font-family: Georgia, serif; font-size: 11px; font-weight: 700; color: var(--gold); flex-shrink: 0; padding-top: 2px; letter-spacing: 0.1em; }
+    .info-card.dark .info-step p { color: var(--text-muted); }
+
+    /* ── FORM SECTION ── */
+    .form-section { padding: 80px 5vw; background: var(--cream-alt); border-top: 1px solid var(--border-lt-mid); }
+    .form-layout { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.6fr; gap: 80px; }
+    .form-aside { display: flex; flex-direction: column; gap: 24px; padding-top: 8px; }
+    .form-aside h2 { font-size: clamp(1.5rem, 2.5vw, 2.2rem); color: var(--burgundy); letter-spacing: -0.02em; line-height: 1.2; }
+    .form-rule { width: 40px; height: 1px; background: var(--gold); opacity: 0.5; }
+    .form-aside p { font-size: 14px; color: var(--burg-muted); line-height: 1.8; }
+    .trust-list { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+    .trust-item { display: flex; align-items: center; gap: 8px; }
+    .trust-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+    .trust-item span { font-size: 12px; color: var(--burg-muted); }
+
+    /* Form */
+    .form-stack { display: flex; flex-direction: column; gap: 10px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .field {
+      width: 100%; padding: 13px 16px;
+      background: var(--cream);
+      border: 1px solid var(--border-lt-mid);
+      color: var(--burgundy);
+      font-family: 'Montserrat', sans-serif; font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .field:focus { border-color: var(--gold); background: rgba(168,136,117,0.05); }
+    .field::placeholder { color: var(--burg-dim); }
+    select.field { cursor: pointer; }
+    select.field option { background: var(--cream); color: var(--burgundy); }
+    .btn-submit {
+      width: 100%; padding: 15px;
+      background: var(--burgundy); color: var(--cream);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      border: none; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-submit:hover { background: var(--bg-deep); }
+    .form-note { font-size: 10px; color: var(--burg-dim); text-align: center; letter-spacing: 0.04em; }
+
+    /* ── CALENDLY SECTION ── */
+    .calendly-section {
+      padding: 80px 5vw 0;
+      border-top: 1px solid var(--border-lt-mid);
+    }
+    .calendly-section-inner { max-width: 1200px; margin: 0 auto; }
+    .calendly-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 40px; margin-bottom: 48px; flex-wrap: wrap; }
+    .calendly-heading { display: flex; flex-direction: column; gap: 16px; }
+    .calendly-label { font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
+    .calendly-heading h2 { font-family: Georgia, 'Times New Roman', serif; font-weight: 700; font-size: clamp(1.6rem, 2.8vw, 2.4rem); color: var(--burgundy); letter-spacing: -0.02em; line-height: 1.15; }
+    .calendly-heading p { font-size: 14px; color: var(--burg-muted); line-height: 1.8; max-width: 420px; }
+    .calendly-rule { width: 40px; height: 1px; background: var(--gold); opacity: 0.5; }
+    .calendly-widget-wrap {
+      border: 1px solid var(--border-lt-mid);
+      overflow: hidden;
+    }
+
+    /* ── FOOTER ── */
+    .site-footer { padding: 40px 5vw; border-top: 1px solid var(--border-lt-mid); display: flex; justify-content: space-between; align-items: center; }
+    .footer-logo img { height: 26px; width: auto; mix-blend-mode: multiply; }
+    .footer-copy { font-size: 10px; color: var(--burg-dim); letter-spacing: 0.06em; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-size: 11px; color: var(--burg-dim); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--burgundy); }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .site-nav { padding: 0 24px; }
+      .page-hero { padding: 120px 6vw 60px; }
+      .info-grid { grid-template-columns: 1fr; }
+      .form-layout { grid-template-columns: 1fr; gap: 40px; }
+      .form-row { grid-template-columns: 1fr; }
+      .site-footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav" role="banner">
+  <a href="index.html" class="nav-logo" aria-label="Optivara Group">
+    <img src="/brand_assets/optivara_wordmark_6_inline_peak.jpeg" alt="Optivara Group" class="nav-logo-img">
+  </a>
+  <ul class="nav-links" aria-label="Main navigation">
+    <li><a href="approach.html">Approach</a></li>
+    <li><a href="values.html">Values</a></li>
+    <li><a href="executive-brief.html" class="active">Executive Brief</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <a href="executive-brief.html" class="nav-cta">Request Brief</a>
+</nav>
+
+<section class="page-hero" aria-labelledby="brief-h1">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-rule"></div>
+      <span>Get started</span>
+    </div>
+    <h1 id="brief-h1">Request your<br>Executive Brief.</h1>
+    <div class="hero-rule"></div>
+    <p>A personalized briefing on how Optivara builds executive performance infrastructure — tailored to your situation, delivered without obligation.</p>
+  </div>
+</section>
+
+<main>
+  <section class="info-section" aria-label="Brief overview">
+    <div class="info-grid">
+      <div class="info-card reveal">
+        <div class="info-card-label">What it is</div>
+        <ul class="info-list" aria-label="What the brief includes">
+          <li class="info-item"><div class="info-dot" aria-hidden="true"></div><p>A tailored overview of how Optivara builds executive performance infrastructure for your specific situation.</p></li>
+          <li class="info-item"><div class="info-dot" aria-hidden="true"></div><p>An assessment of where the highest-leverage opportunities exist within your leadership structure.</p></li>
+          <li class="info-item"><div class="info-dot" aria-hidden="true"></div><p>A clear picture of what governed health infrastructure looks like in practice — with no obligation.</p></li>
+        </ul>
+      </div>
+      <div class="info-card dark reveal reveal-delay-1">
+        <div class="info-card-label">How it works</div>
+        <div class="info-list" aria-label="How the process works">
+          <div class="info-step"><span class="step-num">01</span><p>Submit your details using the form below.</p></div>
+          <div class="info-step"><span class="step-num">02</span><p>We review your situation and prepare a relevant, personalized brief.</p></div>
+          <div class="info-step"><span class="step-num">03</span><p>We schedule a 20-minute introductory conversation to walk through it together.</p></div>
+        </div>
+      </div>
+      <div class="info-card reveal reveal-delay-2">
+        <div class="info-card-label">Who it's for</div>
+        <ul class="info-list" aria-label="Who this is for">
+          <li class="info-item"><div class="info-dot" aria-hidden="true"></div><p>C-suite executives managing sustained, high-demand leadership roles.</p></li>
+          <li class="info-item"><div class="info-dot" aria-hidden="true"></div><p>CHROs and leadership teams responsible for executive performance continuity.</p></li>
+          <li class="info-item"><div class="info-dot" aria-hidden="true"></div><p>Founders and senior leaders in high-growth or high-pressure environments.</p></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="form-section" aria-labelledby="brief-form-h2">
+    <div class="form-layout">
+      <div class="form-aside reveal">
+        <h2 id="brief-form-h2">Tell us about your situation.</h2>
+        <div class="form-rule"></div>
+        <p>Complete the form and we will prepare a brief tailored to your organization and goals. Every inquiry is handled with complete discretion.</p>
+        <div class="trust-list">
+          <div class="trust-item"><div class="trust-dot"></div><span>Response within one business day</span></div>
+          <div class="trust-item"><div class="trust-dot"></div><span>No obligation or hard sell</span></div>
+          <div class="trust-item"><div class="trust-dot"></div><span>Handled with complete discretion</span></div>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <form class="form-stack" onsubmit="return false" novalidate aria-label="Request Executive Brief">
+          <div class="form-row">
+            <input type="text"  class="field" placeholder="Full name"    autocomplete="name">
+            <input type="text"  class="field" placeholder="Role / Title"  autocomplete="organization-title">
+          </div>
+          <input type="text"   class="field" placeholder="Company"       autocomplete="organization">
+          <input type="email"  class="field" placeholder="Work email"    autocomplete="email">
+          <select class="field" aria-label="What are you trying to protect?">
+            <option value="" disabled selected>What are you trying to protect?</option>
+            <option>My own executive performance</option>
+            <option>My leadership team's capacity</option>
+            <option>Leadership continuity across the organization</option>
+            <option>All of the above</option>
+          </select>
+          <button type="submit" class="btn-submit">Request executive brief</button>
+          <p class="form-note">All inquiries are handled with complete discretion.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="calendly-section" aria-labelledby="calendly-h2">
+    <div class="calendly-section-inner">
+      <div class="calendly-header reveal">
+        <div class="calendly-heading">
+          <span class="calendly-label">Or book directly</span>
+          <h2 id="calendly-h2">Schedule your 20-minute<br>introductory call.</h2>
+          <div class="calendly-rule"></div>
+          <p>Prefer to book straight into the calendar? Select a time below and we will come prepared with a tailored overview of how Optivara works.</p>
+        </div>
+      </div>
+      <div class="calendly-widget-wrap reveal">
+        <div class="calendly-inline-widget"
+             data-url="https://calendly.com/stan-optivaragroup/executivebrief?hide_gdpr_banner=1"
+             style="min-width:320px;height:700px;">
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-logo"><img src="/brand_assets/optivara_wordmark_6_inline_peak.jpeg" alt="Optivara Group"></div>
+  <span class="footer-copy">&copy; 2026 Optivara Group. All rights reserved.</span>
+  <nav class="footer-links" aria-label="Footer links">
+    <a href="privacy.html">Privacy</a>
+    <a href="approach.html">Approach</a>
+    <a href="executive-brief.html">Contact</a>
+    <a href="https://www.linkedin.com/company/optivara-group/?viewAsMember=true" class="linkedin-btn" aria-label="LinkedIn" target="_blank" rel="noopener">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+      LinkedIn
+    </a>
+  </nav>
+</footer>
+
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

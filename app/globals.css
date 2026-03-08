@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Space-separated RGB channels — required for Tailwind opacity modifiers (e.g. text-burgundy/75) */
+  --color-burgundy: 94 37 51;
+  --color-burgundy-dark: 74 28 40;
+  --color-burgundy-light: 122 51 69;
+  --color-gold: 168 136 117;
+  --color-gold-light: 196 168 150;
+  --color-gold-dark: 142 109 90;
+  --color-cream: 248 247 240;
+  --color-cream-dark: 237 236 222;
+  --color-blush: 215 192 193;
+  --color-blush-light: 234 216 217;
+  --color-blush-dark: 197 168 169;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #F8F7F0;
+  color: #5E2533;
+  font-family: var(--font-montserrat), system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #5E2533;
+}
+
+/* Skip link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  background-color: #5E2533;
+  color: #F8F7F0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 0 0 4px 4px;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid #A88875;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Selection */
+::selection {
+  background-color: #D7C0C1;
+  color: #5E2533;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F8F7F0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D7C0C1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #A88875;
+}
+
+/* Utility */
+.text-balance {
+  text-wrap: balance;
+}

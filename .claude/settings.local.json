@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node serve-v2.mjs)",
+      "Bash(curl -s -w \"\\\\nHTTP: %{http_code}\\\\n\" \"http://localhost:3001/v2/\")"
+    ]
+  }
+}
