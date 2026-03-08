@@ -594,18 +594,142 @@
     .home-calendly-widget { border: 1px solid var(--border-lt-mid); overflow: hidden; }
 
     /* ── MOBILE ── */
-    @media (max-width: 900px) {
-      .nav-links { display: none; }
-      .site-nav { padding: 0 24px; }
-      .hero-h1 { font-size: clamp(3rem, 12vw, 6rem); max-width: 90vw; }
+    /* ── HAMBURGER ── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column; justify-content: center; gap: 5px;
+      width: 36px; height: 36px; cursor: pointer;
+      background: none; border: none; padding: 4px;
+      z-index: 200;
+    }
+    .nav-hamburger span {
+      display: block; height: 1.5px; width: 22px;
+      background: var(--text);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform-origin: center;
+    }
+    .nav-hamburger.is-open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-hamburger.is-open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.is-open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* ── MOBILE NAV DRAWER ── */
+    .mobile-nav {
+      display: none;
+      position: fixed; inset: 0; z-index: 150;
+      background: var(--bg-deep);
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .mobile-nav.is-open { opacity: 1; pointer-events: auto; }
+    .mobile-nav a {
+      font-size: clamp(1.4rem, 7vw, 2.2rem);
+      font-family: Georgia, serif; font-weight: 700;
+      color: var(--text); text-decoration: none;
+      letter-spacing: -0.02em;
+      padding: 12px 24px;
+      transition: color 0.2s;
+    }
+    .mobile-nav a:hover { color: var(--gold); }
+    .mobile-nav .mobile-nav-cta {
+      margin-top: 24px;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      font-family: 'Montserrat', sans-serif;
+      background: var(--cream); color: var(--burgundy);
+      padding: 14px 36px;
+    }
+
+    @media (max-width: 768px) {
+      /* ── NAV ── */
+      .nav-links, .nav-cta { display: none; }
+      .nav-hamburger { display: flex; }
+      .mobile-nav { display: flex; }
+      .site-nav { padding: 0 20px; }
+
+      /* ── HERO ── */
+      #hero { padding: 0 6vw 12vh; }
+      .hero-h1 { font-size: clamp(2.8rem, 11vw, 5rem); max-width: 90vw; line-height: 0.95; }
       .hero-tagline { display: none; }
-      .align-left, .align-right { padding: 0 6vw; }
+      .hero-label { font-size: 9px; }
+      .scroll-hint { display: none; }
+
+      /* ── DISABLE WIPE + DARK OVERLAY ON MOBILE ── */
+      #wipe-reveal { display: none !important; }
+      #dark-overlay { display: none !important; }
+      .marquee-wrap { display: none !important; }
+
+      /* ── SCROLL CONTAINER: convert to normal flow ── */
+      #scroll-container {
+        height: auto !important;
+        background: var(--cream);
+      }
+
+      /* ── SCROLL SECTIONS: override absolute positioning ── */
+      .scroll-section {
+        position: relative !important;
+        top: auto !important;
+        transform: none !important;
+        min-height: auto !important;
+        display: block !important;
+        pointer-events: auto !important;
+        padding: 72px 24px !important;
+        opacity: 1 !important;
+      }
+      .align-left, .align-right {
+        padding: 72px 24px !important;
+      }
       .section-inner { max-width: 100%; }
-      .stats-grid { grid-template-columns: 1fr; }
-      .statement-line { font-size: clamp(2.5rem, 10vw, 5rem); }
-      .cta-inner { grid-template-columns: 1fr; gap: 40px; padding: 40px 24px; }
-      .form-row { grid-template-columns: 1fr; }
-      .site-footer { flex-direction: column; gap: 12px; text-align: center; }
+
+      /* ── FORCE ALL ANIMATED ELEMENTS VISIBLE ── */
+      .section-label, .section-rule, .section-heading,
+      .section-body, .section-note, .text-link,
+      .cta-copy h2, .cta-copy p, .cta-rule,
+      .form-stack, .form-note, .outcome-card,
+      .statement-line, .statement-caption {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+      .statement-line span { transform: none !important; }
+
+      /* ── STATS SECTION ── */
+      .section-stats {
+        background: var(--bg-deep);
+        padding: 72px 24px !important;
+      }
+      .stats-grid { grid-template-columns: 1fr; gap: 40px; }
+      .stat-number { font-size: 4rem; }
+
+      /* ── STATEMENT SECTION ── */
+      .statement-line { font-size: clamp(2.2rem, 9vw, 4rem); line-height: 1; }
+      .statement-section { padding: 72px 24px !important; }
+
+      /* ── OUTCOMES ── */
+      .outcomes-grid-wrap { grid-template-columns: 1fr; }
+
+      /* ── SECTION PHOTO ── */
+      .section-photo { display: none; }
+
+      /* ── CTA / FORM ── */
+      .section-cta { padding: 0 !important; }
+      .cta-inner {
+        grid-template-columns: 1fr !important;
+        gap: 36px !important;
+        padding: 48px 24px !important;
+      }
+      .form-row { grid-template-columns: 1fr !important; }
+
+      /* ── FOOTER ── */
+      .site-footer {
+        position: relative !important;
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+        padding: 36px 24px;
+      }
+      .footer-links { flex-wrap: wrap; justify-content: center; }
     }
   </style>
 </head>
@@ -630,7 +754,18 @@
     <li><a href="about.html">About</a></li>
   </ul>
   <a href="executive-brief.html" class="nav-cta">Request Brief</a>
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- ── MOBILE NAV DRAWER ── -->
+<div class="mobile-nav" id="mobile-nav" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+  <a href="approach.html">Approach</a>
+  <a href="values.html">Values</a>
+  <a href="about.html">About</a>
+  <a href="executive-brief.html" class="mobile-nav-cta">Request Brief</a>
+</div>
 
 <!-- ── HERO ── -->
 <section id="hero" aria-labelledby="hero-h1">
@@ -903,10 +1038,35 @@
     setTimeout(finishLoader, 1200);
   }
 
+  // ── HAMBURGER ────────────────────────────────────────────────────────────────
+  const hamburger  = document.getElementById('nav-hamburger');
+  const mobileNav  = document.getElementById('mobile-nav');
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileNav.classList.toggle('is-open');
+    hamburger.classList.toggle('is-open', isOpen);
+    hamburger.setAttribute('aria-expanded', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  mobileNav.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      mobileNav.classList.remove('is-open');
+      hamburger.classList.remove('is-open');
+      document.body.style.overflow = '';
+    });
+  });
+
   // ── 2. SITE INIT ────────────────────────────────────────────────────────────
+  const isMobile = window.innerWidth <= 768;
+
   function initSite() {
 
     gsap.registerPlugin(ScrollTrigger);
+
+    // On mobile: skip complex scroll system, just show nav + hero animation
+    if (isMobile) {
+      gsap.to('#site-nav', { opacity: 1, y: 0, duration: 0.6, delay: 0.2 });
+      return;
+    }
 
     // 2a. Lenis smooth scroll
     const lenis = new Lenis({

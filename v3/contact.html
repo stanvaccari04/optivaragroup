@@ -105,9 +105,53 @@
     .reveal-delay-2 { transition-delay: 0.2s; }
     .reveal-delay-3 { transition-delay: 0.3s; }
 
-    @media (max-width: 900px) {
-      .nav-links { display: none; }
-      .site-nav { padding: 0 24px; }
+    
+    /* ── HAMBURGER + MOBILE NAV ── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column; justify-content: center; gap: 5px;
+      width: 36px; height: 36px; cursor: pointer;
+      background: none; border: none; padding: 4px; z-index: 200;
+    }
+    .nav-hamburger span {
+      display: block; height: 1.5px; width: 22px;
+      background: currentColor;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform-origin: center;
+    }
+    .nav-hamburger.is-open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-hamburger.is-open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.is-open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+    .mobile-nav {
+      display: none; position: fixed; inset: 0; z-index: 150;
+      background: rgba(58,21,32,0.98);
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 8px; opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .mobile-nav.is-open { opacity: 1; pointer-events: auto; }
+    .mobile-nav a {
+      font-size: clamp(1.4rem, 7vw, 2.2rem);
+      font-family: Georgia, serif; font-weight: 700;
+      color: #F8F7F0; text-decoration: none;
+      letter-spacing: -0.02em; padding: 12px 24px;
+    }
+    .mobile-nav .mobile-nav-cta {
+      margin-top: 24px; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      font-family: 'Montserrat', sans-serif;
+      background: #F8F7F0; color: #5E2533; padding: 14px 36px;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .nav-hamburger { display: flex; }
+      .mobile-nav { display: flex; }
+      .site-nav { padding: 0 20px; }
+      .page-hero { padding: 100px 6vw 48px; }
+      .site-footer { flex-direction: column; gap: 16px; text-align: center; }
+      .footer-links { flex-wrap: wrap; justify-content: center; }
+
       .page-hero { padding: 120px 6vw 60px; }
       .next-grid { grid-template-columns: 1fr; gap: 32px; }
       .form-layout { grid-template-columns: 1fr; gap: 40px; }
@@ -128,7 +172,18 @@
     <li><a href="about.html">About</a></li>
   </ul>
   <a href="executive-brief.html" class="nav-cta">Request Brief</a>
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<div class="mobile-nav" id="mobile-nav" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+  <a href="index.html">Home</a>
+  <a href="approach.html">Approach</a>
+  <a href="values.html">Values</a>
+  <a href="about.html">About</a>
+  <a href="executive-brief.html" class="mobile-nav-cta">Request Brief</a>
+</div>
 
 <section class="page-hero" aria-labelledby="contact-h1">
   <div class="hero-inner">
@@ -266,6 +321,23 @@ contactForm.addEventListener('submit', async function(e) {
     contactSubmit.textContent = 'Send message';
   }
 });
+</script>
+<script>
+(function(){
+  const h = document.getElementById('nav-hamburger');
+  const m = document.getElementById('mobile-nav');
+  h.addEventListener('click', () => {
+    const o = m.classList.toggle('is-open');
+    h.classList.toggle('is-open', o);
+    h.setAttribute('aria-expanded', o);
+    document.body.style.overflow = o ? 'hidden' : '';
+  });
+  m.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    m.classList.remove('is-open');
+    h.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }));
+})();
 </script>
 </body>
 </html>
