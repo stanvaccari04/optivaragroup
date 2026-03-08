@@ -1,3 +1,9 @@
 {
-  "framework": "nextjs"
+  "version": 2,
+  "builds": [
+    { "src": "v3/**", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/v3/$1" }
+  ]
 }
