@@ -650,7 +650,7 @@
       .site-nav { padding: 0 20px; }
 
       /* ── HERO: force all text visible (CSS hides them for GSAP animation) ── */
-      #hero { padding: 0 6vw 12vh; }
+      #hero { padding: 0 6vw 28vh; }
       .hero-h1 { font-size: clamp(2.8rem, 11vw, 5rem); max-width: 90vw; line-height: 0.95; }
       .hero-h1 .word { overflow: visible !important; }
       .hero-h1 .word-inner { transform: translateY(0) !important; }
@@ -724,6 +724,17 @@
 
       /* ── OUTCOMES ── */
       .outcomes-grid-wrap { grid-template-columns: 1fr; }
+      .outcome-card {
+        display: grid !important;
+        grid-template-columns: 10px 1fr !important;
+        grid-template-rows: auto auto !important;
+        column-gap: 14px !important;
+        row-gap: 6px !important;
+        align-items: start !important;
+      }
+      .outcome-dot { grid-column: 1; grid-row: 1; margin-top: 5px; margin-bottom: 0; }
+      .outcome-card h3 { grid-column: 2; grid-row: 1; }
+      .outcome-card p { grid-column: 2; grid-row: 2; }
 
       /* ── SECTION PHOTO ── */
       .section-photo { display: none; }
