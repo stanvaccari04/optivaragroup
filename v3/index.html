@@ -649,11 +649,14 @@
       .mobile-nav { display: flex; }
       .site-nav { padding: 0 20px; }
 
-      /* ── HERO ── */
+      /* ── HERO: force all text visible (CSS hides them for GSAP animation) ── */
       #hero { padding: 0 6vw 12vh; }
       .hero-h1 { font-size: clamp(2.8rem, 11vw, 5rem); max-width: 90vw; line-height: 0.95; }
+      .hero-h1 .word { overflow: visible !important; }
+      .hero-h1 .word-inner { transform: translateY(0) !important; }
+      .hero-label { opacity: 1 !important; transform: translateY(0) !important; font-size: 9px; }
+      .hero-gold-bar { opacity: 1 !important; }
       .hero-tagline { display: none; }
-      .hero-label { font-size: 9px; }
       .scroll-hint { display: none; }
 
       /* ── DISABLE WIPE + DARK OVERLAY ON MOBILE ── */
@@ -661,7 +664,7 @@
       #dark-overlay { display: none !important; }
       .marquee-wrap { display: none !important; }
 
-      /* ── SCROLL CONTAINER: convert to normal flow ── */
+      /* ── SCROLL CONTAINER: normal flow ── */
       #scroll-container {
         height: auto !important;
         background: var(--cream);
@@ -673,38 +676,50 @@
         top: auto !important;
         transform: none !important;
         min-height: auto !important;
-        display: block !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
         pointer-events: auto !important;
-        padding: 72px 24px !important;
+        padding: 64px 24px !important;
         opacity: 1 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
       }
       .align-left, .align-right {
-        padding: 72px 24px !important;
+        padding: 64px 24px !important;
+        padding-left: 24px !important;
+        padding-right: 24px !important;
       }
       .section-inner { max-width: 100%; }
 
-      /* ── FORCE ALL ANIMATED ELEMENTS VISIBLE ── */
+      /* ── FORCE ALL GSAP-HIDDEN ELEMENTS VISIBLE ── */
       .section-label, .section-rule, .section-heading,
       .section-body, .section-note, .text-link,
       .cta-copy h2, .cta-copy p, .cta-rule,
       .form-stack, .form-note, .outcome-card,
-      .statement-line, .statement-caption {
+      .statement-caption {
         opacity: 1 !important;
         transform: none !important;
       }
-      .statement-line span { transform: none !important; }
+      .statement-line {
+        opacity: 1 !important;
+        overflow: visible !important;
+      }
+      .statement-line span { transform: translateY(0) !important; }
 
       /* ── STATS SECTION ── */
       .section-stats {
-        background: var(--bg-deep);
-        padding: 72px 24px !important;
+        background: var(--bg-deep) !important;
+        padding: 64px 24px !important;
+        align-items: center !important;
       }
-      .stats-grid { grid-template-columns: 1fr; gap: 40px; }
-      .stat-number { font-size: 4rem; }
+      .stats-grid { grid-template-columns: 1fr; gap: 36px; width: 100%; }
+      .stat-number { font-size: 3.5rem; }
+      .stat-suffix { font-size: 2rem; }
 
       /* ── STATEMENT SECTION ── */
-      .statement-line { font-size: clamp(2.2rem, 9vw, 4rem); line-height: 1; }
-      .statement-section { padding: 72px 24px !important; }
+      .statement-line { font-size: clamp(2rem, 9vw, 3.5rem); line-height: 1.05; }
+      .statement-section { align-items: flex-start !important; }
 
       /* ── OUTCOMES ── */
       .outcomes-grid-wrap { grid-template-columns: 1fr; }
@@ -713,7 +728,7 @@
       .section-photo { display: none; }
 
       /* ── CTA / FORM ── */
-      .section-cta { padding: 0 !important; }
+      .section-cta { padding: 0 !important; align-items: stretch !important; }
       .cta-inner {
         grid-template-columns: 1fr !important;
         gap: 36px !important;
@@ -1062,9 +1077,13 @@
 
     gsap.registerPlugin(ScrollTrigger);
 
-    // On mobile: skip complex scroll system, just show nav + hero animation
+    // On mobile: skip complex scroll system
     if (isMobile) {
       gsap.to('#site-nav', { opacity: 1, y: 0, duration: 0.6, delay: 0.2 });
+      // Set stat counters to their actual values immediately
+      document.querySelectorAll('.stat-number').forEach(el => {
+        el.textContent = el.dataset.value;
+      });
       return;
     }
 
