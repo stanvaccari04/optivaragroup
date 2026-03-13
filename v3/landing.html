@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Executive Performance Infrastructure | Optivara Group</title>
+  <meta name="description" content="Join the Optivara intelligence brief — insights on executive performance infrastructure delivered to your inbox.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { overflow-x: hidden; scroll-behavior: smooth; }
+
+    :root {
+      --bg:            #5E2533;
+      --bg-deep:       #4a1d2a;
+      --bg-deeper:     #3a1520;
+      --cream:         #F8F7F0;
+      --cream-alt:     #EDE8E3;
+      --burgundy:      #5E2533;
+      --burg-muted:    rgba(94,37,51,0.65);
+      --burg-dim:      rgba(94,37,51,0.38);
+      --text:          #F8F7F0;
+      --text-muted:    rgba(248,247,240,0.68);
+      --text-dim:      rgba(248,247,240,0.35);
+      --gold:          #A88875;
+      --gold-light:    #C4A491;
+      --blush:         #D7C0C1;
+      --border:        rgba(248,247,240,0.12);
+      --border-mid:    rgba(248,247,240,0.22);
+      --border-lt:     rgba(94,37,51,0.10);
+      --border-lt-mid: rgba(94,37,51,0.18);
+    }
+
+    body {
+      background: var(--bg-deeper);
+      color: var(--text);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 700;
+    }
+
+    /* ── NAV (logo only — no distractions) ── */
+    .site-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px;
+      background: rgba(58,21,32,0.94);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { display: flex; align-items: center; text-decoration: none; }
+    .nav-logo-img { height: 26px; width: auto; display: block; }
+    .nav-back {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: flex; align-items: center; gap: 8px;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--text); }
+    .nav-back svg { transition: transform 0.2s; }
+    .nav-back:hover svg { transform: translateX(-3px); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 100px 5vw 80px;
+      background: var(--bg-deeper);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* layered radial gradient background */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 80% 50%, rgba(94,37,51,0.55) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 80% at 10% 80%, rgba(74,29,42,0.6) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 40% at 50% 0%, rgba(168,136,117,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* SVG noise grain */
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      position: relative; z-index: 1;
+    }
+
+    .hero-copy { display: flex; flex-direction: column; gap: 0; }
+
+    .hero-eyebrow {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 32px;
+    }
+    .hero-eyebrow-rule { width: 28px; height: 1px; background: var(--gold); opacity: 0.7; }
+    .hero-eyebrow span {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 5.5vw, 5.2rem);
+      color: var(--text);
+      letter-spacing: -0.04em;
+      line-height: 1.0;
+      margin-bottom: 28px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--blush);
+    }
+
+    .hero-rule {
+      width: 40px; height: 1px;
+      background: var(--gold); opacity: 0.5;
+      margin-bottom: 28px;
+    }
+
+    .hero-body {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.85;
+      max-width: 440px;
+      margin-bottom: 40px;
+    }
+
+    .hero-trust {
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .trust-item {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .trust-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--gold); flex-shrink: 0;
+    }
+    .trust-item span {
+      font-size: 12px;
+      color: var(--text-dim);
+      letter-spacing: 0.01em;
+    }
+
+    /* ── EMAIL CAPTURE CARD ── */
+    .capture-card {
+      background: rgba(248,247,240,0.04);
+      border: 1px solid var(--border-mid);
+      padding: 56px 48px;
+      position: relative;
+    }
+    .capture-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.4;
+    }
+
+    .capture-label {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .capture-card h2 {
+      font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+      color: var(--text);
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .capture-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 32px;
+    }
+
+    .form-stack { display: flex; flex-direction: column; gap: 10px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    .field {
+      width: 100%; padding: 13px 16px;
+      background: rgba(248,247,240,0.06);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Montserrat', sans-serif; font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .field:focus { border-color: var(--gold); background: rgba(168,136,117,0.08); }
+    .field::placeholder { color: var(--text-dim); }
+    select.field { cursor: pointer; appearance: none; }
+    select.field option { background: #3a1520; color: var(--text); }
+
+    .btn-submit {
+      width: 100%; padding: 16px;
+      background: var(--cream);
+      color: var(--burgundy);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      border: none; cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      margin-top: 4px;
+    }
+    .btn-submit:hover { background: var(--blush); }
+    .btn-submit:active { transform: scale(0.99); }
+    .btn-submit:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+    .form-note {
+      font-size: 10px;
+      color: var(--text-dim);
+      text-align: center;
+      letter-spacing: 0.04em;
+      margin-top: 4px;
+    }
+
+    /* success state */
+    .success-state {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 16px;
+      padding: 24px 0;
+    }
+    .success-state.visible { display: flex; }
+    .success-icon {
+      width: 48px; height: 48px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .success-icon svg { color: var(--gold); }
+    .success-state h3 { font-size: 1.3rem; color: var(--text); letter-spacing: -0.02em; }
+    .success-state p { font-size: 13px; color: var(--text-muted); line-height: 1.75; max-width: 320px; }
+
+    /* ── PROOF STRIP ── */
+    .proof-strip {
+      background: rgba(0,0,0,0.25);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 60px 5vw;
+      position: relative; z-index: 1;
+    }
+    .proof-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--border);
+    }
+    .proof-item {
+      background: rgba(58,21,32,0.60);
+      padding: 40px 40px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .proof-num {
+      font-family: Georgia, serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+    .proof-label {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .proof-desc {
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      max-width: 220px;
+    }
+
+    /* ── WHAT YOU RECEIVE ── */
+    .receive-section {
+      padding: 100px 5vw;
+      background: var(--cream);
+      position: relative; z-index: 1;
+    }
+    .receive-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 2fr;
+      gap: 80px; align-items: start;
+    }
+    .receive-aside {}
+    .receive-eyebrow {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold);
+      display: block; margin-bottom: 20px;
+    }
+    .receive-aside h2 {
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      color: var(--burgundy);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .receive-rule {
+      width: 40px; height: 1px;
+      background: var(--gold); opacity: 0.5;
+      margin-bottom: 20px;
+    }
+    .receive-aside p {
+      font-size: 13px;
+      color: var(--burg-muted);
+      line-height: 1.85;
+    }
+
+    .receive-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--border-lt-mid);
+    }
+    .receive-card {
+      background: var(--cream);
+      padding: 36px 32px;
+      display: flex; flex-direction: column; gap: 12px;
+      transition: background 0.2s;
+    }
+    .receive-card:hover { background: var(--cream-alt); }
+    .receive-card-num {
+      font-family: Georgia, serif;
+      font-size: 11px; font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+    }
+    .receive-card h3 {
+      font-size: 15px;
+      color: var(--burgundy);
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+    }
+    .receive-card p {
+      font-size: 12px;
+      color: var(--burg-muted);
+      line-height: 1.75;
+    }
+
+    /* ── BOTTOM CTA ── */
+    .bottom-cta {
+      background: var(--bg-deep);
+      padding: 80px 5vw;
+      border-top: 1px solid var(--border);
+      position: relative; z-index: 1;
+    }
+    .bottom-cta-inner {
+      max-width: 640px; margin: 0 auto;
+      text-align: center;
+      display: flex; flex-direction: column; align-items: center; gap: 24px;
+    }
+    .bottom-cta-label {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold);
+    }
+    .bottom-cta h2 {
+      font-size: clamp(1.8rem, 3.5vw, 3rem);
+      color: var(--text);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+    .bottom-cta p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+    .bottom-form {
+      display: flex; gap: 0;
+      width: 100%; max-width: 480px;
+    }
+    .bottom-form .field {
+      flex: 1;
+      border-right: none;
+    }
+    .bottom-form .btn-submit {
+      flex-shrink: 0;
+      width: auto;
+      padding: 13px 28px;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+    .bottom-note {
+      font-size: 10px;
+      color: var(--text-dim);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      padding: 36px 5vw;
+      border-top: 1px solid var(--border);
+      background: var(--bg-deeper);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-logo img { height: 24px; width: auto; }
+    .footer-copy { font-size: 10px; color: var(--text-dim); letter-spacing: 0.06em; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a {
+      font-size: 11px; color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--text); }
+
+    /* ── REVEAL ANIMATION ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      .site-nav { padding: 0 20px; }
+
+      .hero { padding: 88px 24px 64px; min-height: auto; }
+      .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+      .hero h1 { font-size: clamp(2.4rem, 10vw, 3.5rem); }
+      .hero-body { font-size: 13px; margin-bottom: 32px; }
+
+      .capture-card { padding: 36px 24px; }
+      .form-row { grid-template-columns: 1fr; }
+
+      .proof-strip { padding: 48px 24px; }
+      .proof-inner { grid-template-columns: 1fr; }
+      .proof-item { padding: 28px 24px; }
+
+      .receive-section { padding: 64px 24px; }
+      .receive-inner { grid-template-columns: 1fr; gap: 40px; }
+      .receive-grid { grid-template-columns: 1fr; }
+
+      .bottom-cta { padding: 64px 24px; }
+      .bottom-form { flex-direction: column; }
+      .bottom-form .field { border-right: 1px solid var(--border); border-bottom: none; }
+      .bottom-form .btn-submit { width: 100%; padding: 14px; }
+
+      .site-footer {
+        flex-direction: column; gap: 16px;
+        text-align: center; padding: 32px 24px;
+      }
+      .footer-links { flex-wrap: wrap; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="site-nav" role="banner">
+  <a href="index.html" class="nav-logo" aria-label="Optivara Group — home">
+    <img src="/brand_assets/optivara_wordmark_6_inline_peak.jpeg" alt="Optivara Group" class="nav-logo-img">
+  </a>
+  <a href="index.html" class="nav-back" aria-label="Back to main site">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Main site
+  </a>
+</nav>
+
+<!-- ── HERO + CAPTURE FORM ── -->
+<section class="hero" aria-labelledby="landing-h1">
+  <div class="hero-inner">
+
+    <!-- Left: copy -->
+    <div class="hero-copy">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-rule"></div>
+        <span>Optivara Intelligence</span>
+      </div>
+      <h1 id="landing-h1">Executive performance<br>starts with <em>clarity.</em></h1>
+      <div class="hero-rule"></div>
+      <p class="hero-body">
+        Most organisations insure capital, operations, and intellectual property — but leave the single most critical performance driver unmanaged: leadership capacity. Our brief cuts through the noise.
+      </p>
+      <div class="hero-trust" aria-label="Trust signals">
+        <div class="trust-item">
+          <div class="trust-dot" aria-hidden="true"></div>
+          <span>No obligation. No sales pitch.</span>
+        </div>
+        <div class="trust-item">
+          <div class="trust-dot" aria-hidden="true"></div>
+          <span>Sent to your inbox within one business day</span>
+        </div>
+        <div class="trust-item">
+          <div class="trust-dot" aria-hidden="true"></div>
+          <span>Handled with complete discretion</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: email capture -->
+    <div class="capture-card" role="region" aria-labelledby="capture-h2">
+      <span class="capture-label">Get the executive brief</span>
+      <h2 id="capture-h2">Receive our tailored overview — delivered directly to you.</h2>
+      <p>Enter your details below and we will send you a personalised brief on how Optivara builds executive performance infrastructure.</p>
+
+      <form class="form-stack" id="capture-form" novalidate aria-label="Email capture form">
+        <div class="form-row">
+          <input class="field" type="text" name="first_name" placeholder="First name" required autocomplete="given-name" aria-label="First name">
+          <input class="field" type="text" name="last_name" placeholder="Last name" required autocomplete="family-name" aria-label="Last name">
+        </div>
+        <input class="field" type="email" name="email" placeholder="Work email address" required autocomplete="email" aria-label="Work email address">
+        <input class="field" type="text" name="company" placeholder="Organisation" autocomplete="organization" aria-label="Organisation">
+        <select class="field" name="role" aria-label="Your role">
+          <option value="" disabled selected>Your role</option>
+          <option>CEO / Managing Director</option>
+          <option>CFO / COO / CTO</option>
+          <option>CHRO / People &amp; Culture</option>
+          <option>Founder</option>
+          <option>Board Member</option>
+          <option>Senior Leader</option>
+          <option>Other</option>
+        </select>
+        <button type="submit" class="btn-submit" id="submit-btn">Send me the brief</button>
+        <p class="form-note">Your information is kept private and never shared.</p>
+      </form>
+
+      <div class="success-state" id="success-state" role="status" aria-live="polite">
+        <div class="success-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3>Brief on its way.</h3>
+        <p>Thank you. We will review your details and send your personalised brief within one business day.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── PROOF STRIP ── -->
+<div class="proof-strip" aria-label="Key performance metrics">
+  <div class="proof-inner">
+    <div class="proof-item reveal">
+      <div class="proof-num">233%</div>
+      <div class="proof-label">Replacement cost</div>
+      <p class="proof-desc">Average cost of replacing a single senior leader — as a percentage of their annual salary.</p>
+    </div>
+    <div class="proof-item reveal reveal-delay-1">
+      <div class="proof-num">6×</div>
+      <div class="proof-label">ROI on executive health</div>
+      <p class="proof-desc">Return for every dollar invested in structured executive health infrastructure.</p>
+    </div>
+    <div class="proof-item reveal reveal-delay-2">
+      <div class="proof-num">41%</div>
+      <div class="proof-label">Risk mitigation</div>
+      <p class="proof-desc">Reduction in absenteeism and performance degradation with governed health programs.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── WHAT YOU RECEIVE ── -->
+<section class="receive-section" aria-labelledby="receive-h2">
+  <div class="receive-inner">
+    <div class="receive-aside reveal">
+      <span class="receive-eyebrow">What's inside</span>
+      <h2 id="receive-h2">What the brief covers.</h2>
+      <div class="receive-rule"></div>
+      <p>A concise, practical document built around your situation — not a generic brochure. Every brief is reviewed before it is sent.</p>
+    </div>
+    <div class="receive-grid" role="list">
+      <div class="receive-card reveal" role="listitem">
+        <div class="receive-card-num">01</div>
+        <h3>The unmanaged risk</h3>
+        <p>Why executive health is strategic infrastructure — and what happens when it is left unmanaged at the leadership level.</p>
+      </div>
+      <div class="receive-card reveal reveal-delay-1" role="listitem">
+        <div class="receive-card-num">02</div>
+        <h3>The Optivara model</h3>
+        <p>How we build integrated, governed, and measurable performance infrastructure for executives and their organisations.</p>
+      </div>
+      <div class="receive-card reveal reveal-delay-2" role="listitem">
+        <div class="receive-card-num">03</div>
+        <h3>Measurable outcomes</h3>
+        <p>The specific, quantifiable results organisations achieve — decision quality, resilience, continuity, and sustained output.</p>
+      </div>
+      <div class="receive-card reveal reveal-delay-3" role="listitem">
+        <div class="receive-card-num">04</div>
+        <h3>Next steps</h3>
+        <p>A clear path forward — whether that is a 20-minute introductory call or a tailored proposal for your organisation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── BOTTOM CTA ── -->
+<section class="bottom-cta" aria-labelledby="cta-h2">
+  <div class="bottom-cta-inner">
+    <span class="bottom-cta-label">Ready to start</span>
+    <h2 id="cta-h2">Still considering? Get the brief first.</h2>
+    <p>No commitment required. Enter your email and we will send you everything you need to make an informed decision.</p>
+    <form class="bottom-form" id="bottom-form" novalidate aria-label="Quick email signup">
+      <input class="field" type="email" name="email" placeholder="Your work email" required autocomplete="email" aria-label="Work email address">
+      <button type="submit" class="btn-submit">Send brief</button>
+    </form>
+    <p class="bottom-note">Handled with complete discretion. Unsubscribe at any time.</p>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-logo">
+    <img src="/brand_assets/optivara_wordmark_6_inline_peak.jpeg" alt="Optivara Group">
+  </div>
+  <span class="footer-copy">&copy; 2026 Optivara Group. All rights reserved.</span>
+  <nav class="footer-links" aria-label="Footer links">
+    <a href="privacy.html">Privacy</a>
+    <a href="index.html">Home</a>
+    <a href="executive-brief.html">Contact</a>
+    <a href="https://www.linkedin.com/company/optivara-group/?viewAsMember=true" aria-label="LinkedIn" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:5px;">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+      LinkedIn
+    </a>
+  </nav>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  // ── Reveal on scroll ─────────────────────────────────────────────────────
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── Form submit (hero form) ───────────────────────────────────────────────
+  const captureForm  = document.getElementById('capture-form');
+  const successState = document.getElementById('success-state');
+
+  captureForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = captureForm.querySelector('[name="email"]').value.trim();
+    if (!email || !email.includes('@')) {
+      captureForm.querySelector('[name="email"]').focus();
+      return;
+    }
+    // Hide form, show success
+    captureForm.style.display = 'none';
+    successState.classList.add('visible');
+  });
+
+  // ── Bottom form submit ────────────────────────────────────────────────────
+  const bottomForm = document.getElementById('bottom-form');
+  bottomForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const emailInput = bottomForm.querySelector('[name="email"]');
+    const email = emailInput.value.trim();
+    if (!email || !email.includes('@')) {
+      emailInput.focus();
+      return;
+    }
+    const btn = bottomForm.querySelector('.btn-submit');
+    btn.textContent = 'Sent — thank you.';
+    btn.disabled = true;
+    btn.style.background = 'var(--blush)';
+    emailInput.disabled = true;
+  });
+
+})();
+</script>
+
+</body>
+</html>
